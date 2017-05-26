@@ -9,14 +9,16 @@ namespace BigchainDB;
 class Crypto
 {
     /**
-     * Generates key pair
+     * Returns key pair
      * @return mixed
      */
-    public function generateKeyPair()
+    public static function generateKeyPair()
     {
-        $rsa  = new \OpenPGP_Crypt_RSA();
-        $keys['private_key'] = $rsa->public_key();
-        $keys['public_key'] = $rsa->private_key();
+        $keys = [];
+        $res = openssl_pkey_new();
+        openssl_pkey_export($res, $keys['private_key']);
+        $publicKey = openssl_pkey_get_details($res);
+        $keys['public_key'] = $publicKey["key"];
         return $keys;
     }
 
