@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: miko
- * Date: 26.05.17
- * Time: 13:45
- */
 
 namespace BigchainDB;
 
@@ -18,7 +12,8 @@ class BigchainDriver
     {
     }
 
-    public function test(){
+    public function test()
+    {
         echo "it works";
     }
 

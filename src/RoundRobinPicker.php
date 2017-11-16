@@ -23,13 +23,14 @@ class RoundRobinPicker extends AbstractPicker
 
     /**
      *Pick one of Connections array
-     * @param  $connections Array of Connection objects
+     * @param array $connections
      * @return mixed
      */
-    function pick($connections)
+    public function pick(array $connections)
     {
-        $this->picked += 1;
-        $this->picked = $this->picked % count($connections);
+        ++$this->picked;
+        $this->picked %= count($connections);
+
         return $connections[$this->picked];
     }
 }

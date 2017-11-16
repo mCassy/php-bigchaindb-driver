@@ -1,7 +1,9 @@
 <?php
+
 namespace BigchainDB;
+
+use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
 
 /**
@@ -11,19 +13,19 @@ use GuzzleHttp\Exception\ClientException;
 class Connection
 {
     /**
-     * @var $nodeUrl Node url to connect to
+     * @var string $nodeUrl url to connect to
      */
     private $nodeUrl;
     private $headers;
 
     /**
      * Connection constructor.
-     * @param $node_url
-     * @param array $headers
+     * @param string $node_url
+     * @param array  $headers
      */
-    public function __construct($node_url, $headers = [])
+    public function __construct(string $node_url, array $headers = [])
     {
-        $this->nodeUrl;
+        $this->nodeUrl = $node_url;
         $this->headers = $headers;
     }
 
@@ -32,27 +34,30 @@ class Connection
      *
      * @param string $method
      * @param string $path
-     * @param array $params
+     * @param array  $params
      * @return string
+     * @throws \Exception
      */
-    public function request($method = 'GET', $path = null, $params = [])
+    public function request(string $method = 'GET', string $path = null, array $params = []): string
     {
-        if($path){
+        if ($path) {
             $url = $this->nodeUrl . $path;
-        }else{
+        } else {
             $url = $this->nodeUrl;
         }
         $client = new Client();
 
         $response = $client->request($method, $url, $params);
-        if($response->getStatusCode() !== 200){
-            throw new BadResponseException();
+
+        if ($response->getStatusCode() !== 200) {
+            throw new Exception('Request error');
         }
-        try{
+        try {
             $data = (string)$response->getBody();
-        }catch (ClientException $exception){
+        } catch (ClientException $exception) {
             return $exception->getMessage();
         }
+
         return $data;
     }
 
