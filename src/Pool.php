@@ -28,7 +28,11 @@ class Pool
         $this->pickerClass = $pickerClass;
     }
 
-    public function getConnection(){
+    /**
+     * @return mixed
+     */
+    public function getConnection()
+    {
         if(count($this->connections) > 1){
             return new $this->pickerClass->pick($this->connections);
         }

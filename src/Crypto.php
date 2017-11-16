@@ -18,7 +18,7 @@ class Crypto
         $res = openssl_pkey_new();
         openssl_pkey_export($res, $keys['private_key']);
         $publicKey = openssl_pkey_get_details($res);
-        $keys['public_key'] = $publicKey["key"];
+        $keys['public_key'] = $publicKey['key'];
         return $keys;
     }
 

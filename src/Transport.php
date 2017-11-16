@@ -9,11 +9,11 @@ namespace BigchainDB;
 class Transport
 {
     /**
-     * @var $nodes Nodes
+     * @var $nodes
      */
     private $nodes;
     /**
-     * @var $headers Optional headers to connection instances,
+     * @var array $headers Optional headers to connection instances,
      * which will add it to headers to be sent with request.
      */
     private $headers;
@@ -24,13 +24,13 @@ class Transport
 
     /**
      * Transport constructor.
-     * @param $nodes
+     * @param       $nodes
      * @param array $headers
      */
-    public function __construct($nodes, $headers = [])
+    public function __construct(array $nodes, array $headers = [])
     {
         $this->headers = $headers;
-        $this->nodes = $nodes;
+        $this->nodes   = $nodes;
     }
 
     /**
@@ -50,55 +50,56 @@ class Transport
 
     /**
      * Forwards an http request to a connection
-     * @param string $method
-     * @param null $path
-     * @param array $params
+     * @param string      $method
+     * @param null|string $path
+     * @param array       $params
      * @return mixed
+     * @throws \Exception
      */
-    public function forwardRequest($method = 'GET', $path = null, $params = [])
+    public function forwardRequest(string $method = 'GET', string $path = null, array $params = [])
     {
         $connection = $this->getConnection();
-        $result = $connection->request($method, $path, $params);
-        return $result;
+
+        return $connection->request($method, $path, $params);
     }
 
     /**
      * Returns connection from the pool
      * @return mixed
      */
-    public function getConnection()
+    public function getConnection(): Connection
     {
         return $this->pool->getConnection();
     }
 
     /**
-     * @return Optional
+     * @return array
      */
-    public function getHeaders(): Optional
+    public function getHeaders(): array
     {
         return $this->headers;
     }
 
     /**
-     * @param Optional $headers
+     * @param array $headers
      */
-    public function setHeaders(Optional $headers)
+    public function setHeaders(array $headers)
     {
         $this->headers = $headers;
     }
 
     /**
-     * @return Nodes
+     * @return array
      */
-    public function getNodes(): Nodes
+    public function getNodes(): array
     {
         return $this->nodes;
     }
 
     /**
-     * @param Nodes $nodes
+     * @param array $nodes
      */
-    public function setNodes(Nodes $nodes)
+    public function setNodes(array $nodes)
     {
         $this->nodes = $nodes;
     }

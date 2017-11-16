@@ -10,8 +10,8 @@ abstract class AbstractPicker
 {
     /**
      *Pick one of Connections array
-     * @param  $connections Array of Connection objects
+     * @param array $connections
      * @return mixed
      */
-    abstract function pick($connections);
+    abstract public function pick(array $connections);
 }
